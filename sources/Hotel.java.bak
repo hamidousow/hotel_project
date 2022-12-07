@@ -12,6 +12,10 @@ public class Hotel {
 		int cptChambreLibres = 0;
 		int cptChambreOccupees = 0;
 		
+		String login = "login";		
+		String password = "password2020";
+		
+		
 		for(int i = 0; i < totalChambres.length; i++) {
 			totalChambres[i] = ran.nextInt(2);
 			
@@ -31,8 +35,8 @@ public class Hotel {
 			System.out.println("\t [C] - Afficher nombre de chambres libres");
 			System.out.println("\t [D] - Afficher le numero de la premiere chambre libre");
 			System.out.println("\t [E] - Afficher le numero de la derniere chambre libre");
-			System.out.println("\t [F] - Quitter l'application");
-			System.out.println("\t [G] - Quitter l'application");
+			System.out.println("\t [F] - Reserver une chambre");
+			System.out.println("\t [G] - Liberer une chambre libre");
 			System.out.println();
 			System.out.println("\t [Q] - Quitter l'application \t");
 			System.out.println();
@@ -103,18 +107,85 @@ public class Hotel {
 			}
 			
 			if(choice.trim().equalsIgnoreCase("F")) {
-				System.out.println();
+				System.out.println() ;
+				String saisieLogin = "";
+				String saisiePassword = "";
+				int numChambreAReservee = -1;
 				
-				for(int i = 0; i < totalChambres.length; i++){
-					if(totalChambres[i] == 0) {
-						System.out.println(i);
+				do {
+					System.out.print("Saisir le login : ");
+					saisieLogin = sc.nextLine();
+					System.out.print("Saisir le mot de passe : ");
+					saisiePassword = sc.nextLine();
+					
+					if(saisieLogin.equals(login) && saisiePassword.equals(password)) {
 						break;
 					}
+					
+					System.out.println("Login ou mot de passe incorrect !");
+					
+				} while(true);
+				
+				for(int i = 0; i < totalChambres.length; i++) {
+					if(totalChambres[i] == 0) {						
+						numChambreAReservee = i;						
+						break;
+					}				
 				}
 				
+				totalChambres[numChambreAReservee] = 1;
+				System.out.println();
+				System.out.println("Premiere chambre libre : [" + numChambreAReservee + "]");
+				System.out.println();
+				System.out.println("Vous avez reservee la chambre numero [" + numChambreAReservee + "]" );
+				
+				
+
+				
+			}	
+
+			if(choice.trim().equalsIgnoreCase("G")) {
+				System.out.println() ;
+				String saisieLogin = "";
+				String saisiePassword = "";
+				String reponse = "";
+				int numChambreALiberer = -1;
+				
+				do {
+					System.out.print("Saisir le login :");
+					saisieLogin = sc.nextLine();
+					System.out.print("Saisir le mot de passe : ");
+					saisiePassword = sc.nextLine();
+					
+					if(saisieLogin.equals(login) && saisiePassword.equals(password)) {						
+						break;
+					}
+					
+					System.out.println("Login ou mot de passe incorrect !");
+					
+				} while(!saisieLogin.equals(login) && !saisiePassword.equals(password));
+				
+				for(int i = totalChambres.length-1; i > 0; i--) {
+					if(totalChambres[i] == 1) {
+						numChambreALiberer = i;
+						
+						break;
+					}					
+				}
+				System.out.println();
+				System.out.println("Liberer la chambre numero : [" + numChambreALiberer + "] ? ");
+				System.out.println();
+				System.out.println("[ O ] pour liberer la chambre \t [ N ] pour conserver la chambre");
+				reponse = sc.nextLine();
+				
+				if(reponse.equalsIgnoreCase("O")) {
+					totalChambres[numChambreALiberer] = 0;
+					System.out.println("Vous avez liberee la chambre numero [" + numChambreALiberer + "]");
+				} else if(reponse.equalsIgnoreCase("N")) {
+					System.out.println("Vous conservez la chambre numero [" + numChambreALiberer + "]");
+				}
+				System.out.println();				
 			}
-			
-			
 		}
 	}
 }
